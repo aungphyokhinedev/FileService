@@ -1,0 +1,14 @@
+POST localhost:7015/file/upload HTTP/1.1
+Accept: application/json
+Content-Type: multipart/form-data; boundary=MyBoundary
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjEyMyJ9.kJnAucieeYc5ABgDOgVogvxRvyNjritA9hwKY0wbwLM
+
+{
+        "AccessType": "A"
+    
+}
+
+--MyBoundary
+Content-Disposition: form-data; name="file"; filename="1.png"
+Content-Type: application/octet-stream
+
