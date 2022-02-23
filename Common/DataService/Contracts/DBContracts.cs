@@ -27,6 +27,15 @@ public interface RemoveData{
     
 }
 
+public interface TransactionData{
+    List<TypedQuery> requests {get;}
+    
+}
+
 public interface ResultData{
     Response response {get;}
+}
+
+public interface TestData{
+    string response {get;}
 }

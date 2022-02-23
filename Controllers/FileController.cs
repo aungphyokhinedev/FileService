@@ -1,3 +1,4 @@
+using AuthenticationService;
 using DataService;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,15 +21,15 @@ public class FileController : ControllerBase
 
     [HttpPost]
     [Route("upload/{accesstype}")]
-    [TypeFilter(typeof(AuthenticateAttribute))]
+    [Allowed("*")]
 
     public async Task<UploadResponse> Upload(IFormFile file, string accesstype)
     {
-      
+        var claim = HttpContext.Claim();
         var uploadresult = await _fileupload.uploadAsync(file);
-        if(uploadresult.code == ResultCode.OK){
+        if(uploadresult.code == StatusCodes.Status200OK){
             var fileinfo = uploadresult.data;
-            fileinfo.UserId =int.Parse( Request.HttpContext.Items["__uid"].ToString());
+            fileinfo.UserId = int.Parse(claim.uid);
             fileinfo.AccessType = accesstype;
             var saveresult = await _data.SaveFile(fileinfo);
             return new UploadResponse {
@@ -54,11 +55,12 @@ public class FileController : ControllerBase
     
     [HttpDelete]
     [Route("file/{url}")]
-     [TypeFilter(typeof(AuthenticateAttribute))]
+    [Allowed("*")]
     public async Task<Response> Remove(string url)
     {
+          var claim = HttpContext.Claim();
           File file = new File{
-              UserId = int.Parse( Request.HttpContext.Items["__uid"].ToString()),
+              UserId = int.Parse(claim.uid),
               FileUrl = url
           };
           var deleteresult = await _data.DeleteFile(file);

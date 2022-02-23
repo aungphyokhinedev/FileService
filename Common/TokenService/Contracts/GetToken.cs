@@ -1,4 +1,4 @@
-namespace TokenService;
+namespace  TokenService; 
 public interface GetToken {
     Dictionary<string,object> payload {get;}
 }

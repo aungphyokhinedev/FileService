@@ -16,7 +16,6 @@ builder.Services.AddScoped<IDataAccess,ServiceDataAccess>();
 builder.Services.AddSwaggerGen();
 
 
-
 builder.Services.AddMassTransit(x =>
             {
                 //x.AddConsumers(Assembly.GetExecutingAssembly());
@@ -33,29 +32,18 @@ builder.Services.AddMassTransit(x =>
                     cfg.ConfigureEndpoints(context);
                 });
 
-                //data service
-                x.AddRequestClient<AddData>();
-                x.AddRequestClient<UpdateData>();
-                x.AddRequestClient<RemoveData>();
-                x.AddRequestClient<GetList>();
-
+               //data service
+                x.AddRequestClient<DataServiceContract>();        
                 //token service
-                x.AddRequestClient<GetToken>();
-                x.AddRequestClient<ValidateToken>();
+                x.AddRequestClient<TokenServiceContract>();
 
 
             }).AddMassTransitHostedService();
-var app = builder.Build();
-// Configure the HTTP request pipeline.
-/*if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-*/
+            var app = builder.Build();
+
 
 app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
